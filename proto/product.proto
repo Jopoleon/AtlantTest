@@ -1,0 +1,53 @@
+syntax = "proto3";
+package product;
+
+option go_package = "/proto_server";
+
+
+service ProductService {
+	rpc List (ListRequest) returns (ListReply) {}
+	rpc Fetch (FetchRequest) returns (BasicReply) {}
+}
+
+message Product {
+	string name = 2;
+	float last_price = 3;
+	int32 price_changes = 4;
+	string last_updated = 5;
+}
+
+message ListRequest{
+	int32 page = 1;
+	int32 limit = 2;
+	Sort sort  = 3;
+	Order order = 4;
+}
+
+message ListReply{
+	repeated Product products = 1;
+	string sort_type = 2;
+}
+
+enum Order{
+	ASC = 0;
+	DESC = -1;
+}
+
+//имени. цене, количеству изменений и дате последнего
+enum Sort{
+	NONE = 0;
+	NAME = 1;
+	LAST_PRICE = 2;
+	PRICE_CHANGES =3;
+	LAST_UPDATED =4;
+}
+
+message BasicReply {
+	string message = 1;
+	int32 code = 2;
+}
+
+message FetchRequest{
+	string url = 1;
+}
+
